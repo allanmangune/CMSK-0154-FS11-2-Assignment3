@@ -74,7 +74,7 @@ namespace Assignment3 {
 
         /// <summary>
         /// Sets the first name, last name, and ID of the person. Generates a new, unique SSN if the provided SSN is zero or less.
-        /// If null is provided for either first or last name, defaults to an empty string.
+        /// Sets the value of the FirstName or LastName when the values of firstName or lastName are null, respectively.
         /// </summary>
         /// <param name="firstName">The first name to set.</param>
         /// <param name="lastName">The last name to set.</param>
