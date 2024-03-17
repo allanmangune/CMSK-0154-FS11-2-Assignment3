@@ -14,12 +14,12 @@ namespace Assignment3 {
         /// <summary>
         /// Gets the first name of the person.
         /// </summary>
-        public string FirstName { get; private set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Gets the last name of the person.
         /// </summary>
-        public string LastName { get; private set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Gets the Social Security Number (SSN) of the person.
