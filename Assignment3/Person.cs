@@ -50,11 +50,15 @@ namespace Assignment3 {
         }
 
         /// <summary>
-        /// Validates the person by ensuring they have both a first and last name.
+        /// Validates the person by ensuring they have both a first and last name. Assigns an empty string
+        /// to the property if they have a null value;
+        /// Overrides the base IsValidated method to provide specific validation logic for a Person.
         /// </summary>
         /// <returns>True if the person has both a first and last name, otherwise false.</returns>
         public override bool IsValidated()
         {
+            FirstName = FirstName ?? string.Empty;
+            LastName = LastName ?? string.Empty;
             return FirstName.Length > 0 && LastName.Length > 0;
         }
 
