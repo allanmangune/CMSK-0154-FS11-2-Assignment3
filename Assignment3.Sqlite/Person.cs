@@ -24,7 +24,7 @@ namespace Assignment3 {
         /// <summary>
         /// Gets the Social Security Number (SSN) of the person.
         /// </summary>
-        public int SSN { get; private set; }
+        public int SSN { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the Person class with first and last names.
@@ -73,7 +73,7 @@ namespace Assignment3 {
         }
 
         /// <summary>
-        /// Sets the first name, last name, and ID of the person. Generates a new, unique SSN if the provided SSN is zero or less.
+        /// Sets the first name and last name of the person. Generates a new, unique SSN if the provided SSN is zero or less.
         /// Sets the value of the FirstName or LastName when the values of firstName or lastName are null, respectively.
         /// </summary>
         /// <param name="firstName">The first name to set.</param>
@@ -83,7 +83,6 @@ namespace Assignment3 {
         {
             FirstName = firstName ?? string.Empty;
             LastName = lastName ?? string.Empty;
-            Id = new Random().Next(1, 1000000); 
             SSN = ssn <= 0 ? SSNumberGenerator.Instance.GenerateSSN() : ssn;
         }
     }

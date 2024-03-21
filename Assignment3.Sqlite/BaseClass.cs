@@ -2,7 +2,7 @@
     /// <summary>
     /// A base class with a virtual IsValidated method.
     /// </summary>
-    public class BaseClass
+    public abstract class BaseClass
     {
         /// <summary>
         /// Determines if the object is in a validated state.

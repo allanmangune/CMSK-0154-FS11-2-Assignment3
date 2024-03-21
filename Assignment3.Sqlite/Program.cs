@@ -1,4 +1,9 @@
-﻿namespace Assignment3
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Assignment3
 {
     class Program
     {
@@ -10,23 +15,87 @@
 
             Person kim = new Person("Kim", "Smith");
             Console.WriteLine(kim.IsValidated());
+            
+            Console.WriteLine("Using Entity Framework ...");
 
-            Console.WriteLine("Additional validations ...");
-            // Create a person with an automatically generated SSN
-            Person person1 = new Person("Johnny", "Bean");
-            Console.WriteLine($"Person 1: {person1.FirstName} {person1.LastName}, SSN: {person1.SSN}, Validated: {person1.IsValidated()}");
+            // Set up Dependency Injection
+            var serviceProvider = new ServiceCollection()
+                                    .AddDbContext<Assignment3DbContext>(options =>
+                                        options.UseSqlite("Data Source=assignment3.db"))
+                                    .AddScoped<IPersonRepository, PersonRepository>()
+                                    .BuildServiceProvider();
 
-            // Create another person with a specified SSN
-            Person person2 = new Person("Jelly", "Coane", 1001);
-            Console.WriteLine($"Person 2: {person2.FirstName} {person2.LastName}, SSN: {person2.SSN}, Validated: {person2.IsValidated()}");
+            // Get the PersonRepository from the service provider
+            var personRepository = serviceProvider.GetService<IPersonRepository>();
+            
+            // Example usage
+            if (personRepository != null)
+            {
+                AddSamplePeople(personRepository);
+                Console.WriteLine("10 people added to the database.");
+                ListPeople(personRepository);
+                DeleteLastPerson(personRepository);
+                ListPeople(personRepository);
+                DeleteAllPeople(personRepository);
+            }
+            
+        }
 
-            // Attempt to create a person with invalid data (empty names) to test validation
-            Person person3 = new Person("", "");
-            Console.WriteLine($"Person 3: {person3.FirstName} {person3.LastName}, SSN: {person3.SSN}, Validated: {person3.IsValidated()}");
+        static void AddSamplePeople(IPersonRepository personRepository)
+        {
+            var people = new List<Person>
+            {
+                new Person { FirstName = "John", LastName = "Doe", SSN = 123456789 },
+                new Person { FirstName = "Jane", LastName = "Doe", SSN = 987654321 },
+                new Person { FirstName = "Jim", LastName = "Beam", SSN = 123123123 },
+                new Person { FirstName = "Jack", LastName = "Daniels", SSN = 321321321 },
+                new Person { FirstName = "Josie", LastName = "Wales", SSN = 456456456 },
+                new Person { FirstName = "Jill", LastName = "Valentine", SSN = 654654654 },
+                new Person { FirstName = "Leon", LastName = "Kennedy", SSN = 111222333 },
+                new Person { FirstName = "Chris", LastName = "Redfield", SSN = 444555666 },
+                new Person { FirstName = "Ada", LastName = "Wong", SSN = 777888999 },
+                new Person { FirstName = "Albert", LastName = "Wesker", SSN = 123987456 }
+            };
 
-            // Testing assigning a new SSN to an existing person
-            int newSSN = person1.AssignSSN();
-            Console.WriteLine($"Person 1 with new SSN: {person1.FirstName} {person1.LastName}, New SSN: {newSSN}");
+            foreach (var person in people)
+            {
+                personRepository.Add(person);
+            }
+        }
+
+        static void ListPeople(IPersonRepository personRepository)
+        {
+            var people = personRepository.GetAll();
+
+            Console.WriteLine("Listing all people:");
+            foreach (var person in people)
+            {
+                Console.WriteLine($"ID: {person.Id}, Name: {person.FirstName} {person.LastName}, SSN: {person.SSN}");
+            }
+        }
+
+        static void DeleteLastPerson(IPersonRepository personRepository)
+        {
+            var people = personRepository.GetAll().ToList();
+            if (people.Any())
+            {
+                var lastPerson = people.OrderBy(p => p.Id).LastOrDefault(); 
+                if (lastPerson != null)
+                {
+                    personRepository.Delete(lastPerson.Id);
+                    Console.WriteLine($"Deleted the last person: {lastPerson.FirstName} {lastPerson.LastName}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No people found to delete.");
+            }
+        }
+
+        static void DeleteAllPeople(IPersonRepository personRepository)
+        {
+            personRepository.DeleteAll();
+            Console.WriteLine("All people have been deleted from the database.");
         }
     }
 }

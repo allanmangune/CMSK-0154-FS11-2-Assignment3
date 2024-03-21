@@ -20,3 +20,4 @@ msbuild.wrn
 .vs/ 
 /coverage 
 /build 
+.DS_Store
