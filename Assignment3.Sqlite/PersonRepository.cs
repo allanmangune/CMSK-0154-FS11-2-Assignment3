@@ -5,11 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Assignment3
 {
+    /// <summary>
+    /// Represents a class that deals with the database operations.
+    /// </summary>
     public class PersonRepository : IPersonRepository
     {
         private readonly Assignment3DbContext _context;
 
-        // Constructor expects an instance of Assignment3DbContext for database operations.
+        /// <summary>
+        /// Constructor expects an instance of Assignment3DbContext for database operations.
+        /// </summary>
+        /// <param name="context"></param>
         public PersonRepository(Assignment3DbContext context)
         {
             _context = context;
@@ -23,7 +29,7 @@ namespace Assignment3
         {
             try
             {
-                _context.People.Add(person); // Changed from Persons to People
+                _context.People.Add(person); 
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -40,7 +46,7 @@ namespace Assignment3
         {
             try
             {
-                var existingPerson = _context.People.FirstOrDefault(p => p.Id == person.Id); // Changed from Persons to People
+                var existingPerson = _context.People.FirstOrDefault(p => p.Id == person.Id); 
                 if (existingPerson != null)
                 {
                     existingPerson.FirstName = person.FirstName;
@@ -71,10 +77,10 @@ namespace Assignment3
         {
             try
             {
-                var person = _context.People.FirstOrDefault(p => p.Id == personId); // Changed from Persons to People
+                var person = _context.People.FirstOrDefault(p => p.Id == personId); 
                 if (person != null)
                 {
-                    _context.People.Remove(person); // Changed from Persons to People
+                    _context.People.Remove(person); 
                     _context.SaveChanges();
                 }
             }
