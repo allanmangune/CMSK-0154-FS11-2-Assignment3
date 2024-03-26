@@ -7,11 +7,6 @@ namespace Assignment3 {
     public class Person : BaseClass
     {
         /// <summary>
-        /// Gets the unique identifier for the person, generated randomly upon instantiation.
-        /// </summary>
-        public int Id { get; private set; }
-
-        /// <summary>
         /// Gets the first name of the person.
         /// </summary>
         public string FirstName { get; set; }
