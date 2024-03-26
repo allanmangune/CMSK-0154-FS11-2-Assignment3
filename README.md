@@ -4,6 +4,6 @@
 2. dotnet add package Microsoft.EntityFrameworkCore.Design
 3. dotnet tool install --global dotnet-ef
 4. dotnet ef migrations add AddPeopleTable
-#5. dotnet ef database update
+5. dotnet ef database update (Run this before using the project)
 
 
